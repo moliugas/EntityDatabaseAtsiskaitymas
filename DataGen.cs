@@ -1,4 +1,5 @@
 ﻿using EntityDB.Entity;
+using static Azure.Core.HttpHeader;
 
 namespace EntityDB
 {
@@ -8,43 +9,49 @@ namespace EntityDB
         public List<Lesson> Lessons { get; set; }
         public List<Department> Departments { get; set; }
 
-        private Random Random = new Random();
+        private Random Random { get; set; }
 
         private readonly string[] GirlNames = new[] { "Sofija", "Emilija", "Luknė", "Amelija", "Kamilė", "Lėja", "Gabija", "Patricija", "Elija", "Liepa" };
         private readonly string[] BoyNames = new[] { "Markas", "Benas", "Jokūbas", "Dominykas", "Herkus", "Adomas", "Lukas", "Jonas", "Matas", "Kajus" };
         private readonly string[] LessonNames = new[] { "Math", "Chemistry", "Physics", "Calculus", "Biology", "Physical Education", "Arts", "English", "Flat Geo" };
+        private readonly string[] DepartmentNames = new[] { "Department 1", "D2", "D3", "D7" };
 
-        DataGen()
+        public DataGen()
         {
+            Random = new Random();
+            Students = new List<Student>();
+            Lessons = new List<Lesson>();   
+            Departments = new List<Department>();
         }
         public void GenerateAll()
         {
-            GenericGenerate(Students);
-            GenericGenerate(Lessons, 10);
-            GenericGenerate(Departments);
+            GenerateLessons();
+            GenerateLessons();
+            GenerateDepartments();
         }
-        private void GenericGenerate<T>(List<T> list, int amount = 150) where T : class
+        private void GenerateStudents() 
         {
-            Console.WriteLine(typeof(T));
-
-            for (int i = 0; i < amount; i++)
+            for (int i = 0; i < 200; i++)
             {
-                //list.Add(new T());
+                Students.Add(new Student(Random.Next() % 2 == 2 ? GirlNames[Random.Next(GirlNames.Length)] : BoyNames[Random.Next(BoyNames.Length)]));
             }
         }
 
-        private List<String> GetNamesByClass(string type)
+        private void GenerateLessons()
         {
-            switch (type)
+            for (int i = 0; i < 20; i++)
             {
-                case "EntityDB.Entity.Student":
-                    return Random.Next % 2 == 2 ? GirlNames[Random.Next(GirlNames.Length)] : GirlNames[Random.Next(GirlNames.Length)];
-                case "EntityDB.Entity.Lesson"
-                case "EntityDB.Entity.Department"
+                Lessons.Add(new Lesson(LessonNames[Random.Next(LessonNames.Length)]));
             }
-
-            return new();
         }
+        private void GenerateDepartments()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                Departments.Add(new Department(DepartmentNames[i]));
+            }
+        }
+
 
     }
 }

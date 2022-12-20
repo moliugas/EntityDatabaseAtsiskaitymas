@@ -7,8 +7,7 @@
         public List<Student> Students { get; set; }
         public List<Lesson> Lessons { get; set; }
 
-        Department(string name)
-        {
+        public Department(string name) {
             Name = name;
         }
     }

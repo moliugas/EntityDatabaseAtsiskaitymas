@@ -6,7 +6,7 @@
         public string Name { get; set; }
         public List<Department> Departments { get; set; }
 
-        Lesson(string name)
+        public Lesson(string name)
         {
             Name = name;
         }

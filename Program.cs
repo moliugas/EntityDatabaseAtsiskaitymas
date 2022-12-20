@@ -7,5 +7,6 @@ var context = new RegistryContext();
 
 
 
-new DataGen().GenerateAll();
+var mockData = new DataGen();
+mockData.GenerateAll();
 
