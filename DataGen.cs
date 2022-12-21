@@ -26,7 +26,7 @@ namespace EntityDB
         public void GenerateAll()
         {
             GenerateLessons();
-            GenerateLessons();
+            GenerateStudents();
             GenerateDepartments();
         }
         private void GenerateStudents() 
