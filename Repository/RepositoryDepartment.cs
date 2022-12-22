@@ -1,12 +1,6 @@
-﻿using EntityDB.Context;
-using EntityDB.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EntityDB.Entity;
 
-namespace EntityDB
+namespace EntityDB.Repository
 {
     public class ServiceDepartment
     {

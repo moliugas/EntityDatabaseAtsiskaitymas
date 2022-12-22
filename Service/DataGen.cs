@@ -1,7 +1,6 @@
 ﻿using EntityDB.Entity;
-using static Azure.Core.HttpHeader;
 
-namespace EntityDB
+namespace EntityDB.Service
 {
     public class DataGen
     {
@@ -20,7 +19,7 @@ namespace EntityDB
         {
             Random = new Random();
             Students = new List<Student>();
-            Lessons = new List<Lesson>();   
+            Lessons = new List<Lesson>();
             Departments = new List<Department>();
         }
         public void GenerateAll()
@@ -29,24 +28,24 @@ namespace EntityDB
             GenerateStudents();
             GenerateDepartments();
         }
-        private void GenerateStudents() 
+        public void GenerateStudents(int amount = 200)
         {
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < amount; i++)
             {
                 Students.Add(new Student(Random.Next() % 2 == 2 ? GirlNames[Random.Next(GirlNames.Length)] : BoyNames[Random.Next(BoyNames.Length)]));
             }
         }
 
-        private void GenerateLessons()
+        public void GenerateLessons(int amount = 20)
         {
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < amount; i++)
             {
                 Lessons.Add(new Lesson(LessonNames[Random.Next(LessonNames.Length)]));
             }
         }
-        private void GenerateDepartments()
+        public void GenerateDepartments(int amount = 2)
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < amount; i++)
             {
                 Departments.Add(new Department(DepartmentNames[i]));
             }

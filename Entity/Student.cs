@@ -6,11 +6,12 @@ namespace EntityDB.Entity
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; }
-        public List<Lesson> Lessons { get; set; }
+        public List<Lesson> Lessons { get; set; } = new List<Lesson>();
+        public Department Department { get; set; }
+
         public Student(string name)
         {
             Name = name;
-            Lessons = new List<Lesson>();
         }
 
     }

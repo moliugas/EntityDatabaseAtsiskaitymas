@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EntityDB.Migrations
 {
     [DbContext(typeof(RegistryContext))]
-    [Migration("20221221181658_init")]
-    partial class init
+    [Migration("20221222181512_lessons")]
+    partial class lessons
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -81,7 +81,7 @@ namespace EntityDB.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("DepartmentId")
+                    b.Property<Guid>("DepartmentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
@@ -119,9 +119,13 @@ namespace EntityDB.Migrations
 
             modelBuilder.Entity("EntityDB.Entity.Student", b =>
                 {
-                    b.HasOne("EntityDB.Entity.Department", null)
+                    b.HasOne("EntityDB.Entity.Department", "Department")
                         .WithMany("Students")
-                        .HasForeignKey("DepartmentId");
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("EntityDB.Entity.Department", b =>

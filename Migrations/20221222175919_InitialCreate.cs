@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EntityDB.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -29,16 +29,17 @@ namespace EntityDB.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DepartmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    StudentDepartment = table.Column<Guid>(name: "Student.Department", type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Students", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Students_Departments_DepartmentId",
-                        column: x => x.DepartmentId,
+                        name: "FK_Students_Departments_Student.Department",
+                        column: x => x.StudentDepartment,
                         principalTable: "Departments",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -94,9 +95,9 @@ namespace EntityDB.Migrations
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Students_DepartmentId",
+                name: "IX_Students_Student.Department",
                 table: "Students",
-                column: "DepartmentId");
+                column: "Student.Department");
         }
 
         /// <inheritdoc />
