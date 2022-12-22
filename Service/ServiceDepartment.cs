@@ -16,6 +16,11 @@ namespace EntityDB
             Department = department ?? new Department("NoName");
         }
 
+        public static Department CreateDepartment(string name)
+        {
+            return new(name ?? "NoName");
+        }
+
         public void AddStudent(Student student)
         {
             if (student == null) { throw new Exception("Student cannot be null"); }
