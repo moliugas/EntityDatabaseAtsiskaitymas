@@ -1,8 +1,11 @@
-﻿namespace EntityDB.Entity
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace EntityDB.Entity
 {
+    [Table(nameof(Lesson))]
     public class Lesson
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public List<Department> Departments { get; set; }
 

@@ -69,7 +69,7 @@ namespace EntityDB.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Lessons");
+                    b.ToTable("Lesson");
                 });
 
             modelBuilder.Entity("EntityDB.Entity.Student", b =>
@@ -89,7 +89,7 @@ namespace EntityDB.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Students");
+                    b.ToTable("Student");
                 });
 
             modelBuilder.Entity("DepartmentLesson", b =>
@@ -116,13 +116,11 @@ namespace EntityDB.Migrations
 
             modelBuilder.Entity("EntityDB.Entity.Student", b =>
                 {
-                    b.HasOne("EntityDB.Entity.Department", "Department")
+                    b.HasOne("EntityDB.Entity.Department", null)
                         .WithMany("Students")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("EntityDB.Entity.Department", b =>

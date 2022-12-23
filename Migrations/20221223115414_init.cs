@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EntityDB.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,26 +24,26 @@ namespace EntityDB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Students",
+                name: "Student",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StudentDepartment = table.Column<Guid>(name: "Student.Department", type: "uniqueidentifier", nullable: false)
+                    DepartmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Students", x => x.Id);
+                    table.PrimaryKey("PK_Student", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Students_Departments_Student.Department",
-                        column: x => x.StudentDepartment,
+                        name: "FK_Student_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
                         principalTable: "Departments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Lessons",
+                name: "Lesson",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -52,11 +52,11 @@ namespace EntityDB.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Lessons", x => x.Id);
+                    table.PrimaryKey("PK_Lesson", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Lessons_Students_StudentId",
+                        name: "FK_Lesson_Student_StudentId",
                         column: x => x.StudentId,
-                        principalTable: "Students",
+                        principalTable: "Student",
                         principalColumn: "Id");
                 });
 
@@ -77,9 +77,9 @@ namespace EntityDB.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DepartmentLesson_Lessons_LessonsId",
+                        name: "FK_DepartmentLesson_Lesson_LessonsId",
                         column: x => x.LessonsId,
-                        principalTable: "Lessons",
+                        principalTable: "Lesson",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -90,14 +90,14 @@ namespace EntityDB.Migrations
                 column: "LessonsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Lessons_StudentId",
-                table: "Lessons",
+                name: "IX_Lesson_StudentId",
+                table: "Lesson",
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Students_Student.Department",
-                table: "Students",
-                column: "Student.Department");
+                name: "IX_Student_DepartmentId",
+                table: "Student",
+                column: "DepartmentId");
         }
 
         /// <inheritdoc />
@@ -107,10 +107,10 @@ namespace EntityDB.Migrations
                 name: "DepartmentLesson");
 
             migrationBuilder.DropTable(
-                name: "Lessons");
+                name: "Lesson");
 
             migrationBuilder.DropTable(
-                name: "Students");
+                name: "Student");
 
             migrationBuilder.DropTable(
                 name: "Departments");

@@ -2,38 +2,34 @@
 
 namespace EntityDB.Repository
 {
-    public class ServiceDepartment
+    public static class RepositoryDepartment
     {
-        public Department Department { get; private set; }
-        public ServiceDepartment(Department? department = null)
+        public static Department Department { get; set; }
+
+        public static Department GetNewDepartment(string? name = null)
         {
-            Department = department ?? new Department("NoName");
+            return new(name ?? "Departamementas6xxx9");
         }
 
-        public static Department CreateDepartment(string name)
-        {
-            return new(name ?? "NoName");
-        }
-
-        public void AddStudent(Student student)
+        public static void AddStudent(Student student)
         {
             if (student == null) { throw new Exception("Student cannot be null"); }
 
             if (student.Lessons.FirstOrDefault() == null)
             {
-                student.Lessons.Add(Department.Lessons.FirstOrDefault());
+                student.Lessons.Add(Department.Lessons.First());
             }
             Department.Students.Add(student);
         }
 
-        public void AddStudents(List<Student> students)
+        public static void AddStudents(List<Student> students)
         {
             if (students == null) { throw new Exception("Students  cannot be null"); }
 
             students.ForEach(student => AddStudent(student));
 
         }
-        public void AddLesson(Lesson lesson)
+        public static void AddLesson(Lesson lesson)
         {
             if (lesson == null) { throw new Exception("Lesson cannot be null"); }
 
@@ -44,7 +40,7 @@ namespace EntityDB.Repository
             Department.Lessons.Add(lesson);
         }
 
-        public void AddLessons(List<Lesson> lessons)
+        public static void AddLessons(List<Lesson> lessons)
         {
             if (lessons == null) { throw new Exception("Lessons cannot be null"); }
 

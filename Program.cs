@@ -1,45 +1,57 @@
 ﻿
-using EntityDB;
 using EntityDB.Context;
 using EntityDB.Entity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
+using EntityDB.Repository;
 
 var rnd = new Random();
 var context = new RegistryContext();
 
+context.Database.EnsureDeleted();
+
+
+//context.Lessons.AddRange(new EntityDB.Service.DataGen().GenerateLessons().Lessons);
+//context.SaveChanges();
+
+
+//    "Server=localhost;Database=Ef_Core;Trusted_Connection=True;TrustServerCertificate=True"
+    
+//Add-Migration InitialCreate
+    
+//Update-Database
 
 //        1.Sukurti departamentą ir į jį pridėti studentus, paskaitas(papildomi points jei pridedamos
 //paskaitos jau egzistuojančios duomenų bazėje).
 
 Department GetMockDepartment()
 {
-    Department department = new("Departamementas6xxx9");
+    Department department = context.Departments.Single(x => x.Name == "Departamementas6xxx9");
+    RepositoryDepartment.Department = department;
 
-
-    List<Student> students = new List<Student>() {
+    List <Student> students = new List<Student>() {
         new Student("Petras"),
         new Student("Marytea")
         };
 
     List<Lesson> lessons = context.Lessons.Where(x => !x.Departments.Contains(department)).ToList();
-    lessons.ForEach(x => x.Departments.Add(department));
 
-    department.Students = students;
-    department.Lessons = lessons;
+    department.Students.AddRange(students);
+    department.Lessons.AddRange(lessons);
 
     return department;
 }
-
+//GetMockDepartment();
 //2.Pridėti studentus / paskaitas į jau egzistuojantį departamentą.
-void AddStudentsLessonsToDeparment(Student student, Lesson lesson, Guid departmentId)
+void AddStudentsLessonsToDeparment(List<Student> students, List<Lesson> lessons, Guid departmentId)
 {
-    Department result = context.Departments.SingleOrDefault(x => x.Id == departmentId);
+    Department department = context.Departments.Single(x => x.Id == departmentId);
 
-    result.Students.Add(student);
-    result.Lessons.Add(lesson);
+    //department.Students.AddRange(students);
 
-    context.Departments.Update(result);
+    department.Lessons.AddRange(lessons);
+    //lessons.ForEach(x => x.Departments.Add(department));
+    //department.Lessons.AddRange(lessons);
+
+    context.Add(department);
     context.SaveChanges();
 }
 
@@ -51,15 +63,9 @@ void CreateLessonAddToDepartmentSave()
 
     Department department = context.Departments.Single(x => x.Name == "Departamementas6xxx9");
 
-    AddLessonToDepartment(lesson, department);
-}
-
-void AddLessonToDepartment(Lesson lesson, Department department)
-{
     lesson.Departments.Add(department);
+    context.Lessons.Add(lesson);
     department.Lessons.Add(lesson);
-
-    context.Update(department);
     context.SaveChanges();
 
 
@@ -69,10 +75,17 @@ void AddLessonToDepartment(Lesson lesson, Department department)
 //4. Sukurti studentą, jį pridėti prie egzistuojančio departamento ir priskirti jam egzistuojančias
 //paskaitas.
 //5. Perkelti studentą į kitą departamentą(bonus points jei pakeičiamos ir jo paskaitos).
-CreateLessonAddToDepartmentSave();
-//context.Departments.Add(GetMockDepartment());
+
+
+
+//context.UpdateRange(GetMockDepartment());
 //context.SaveChanges();
 
+//AddStudentsLessonsToDeparment(new List<Student>() { new("Gagis") }, new List<Lesson>() { new("Gagio pamoka") }, new Guid("E28EC477-E92D-4340-0A23-08DAE4706C11"));
+
+//CreateLessonAddToDepartmentSave();
+
+Console.WriteLine('o');
 
 //students.ForEach(student => student.Lessons.AddRange(context.Lessons.OrderBy(x => x.Id).Take(rnd.Next(20))));
 

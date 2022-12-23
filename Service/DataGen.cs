@@ -36,12 +36,14 @@ namespace EntityDB.Service
             }
         }
 
-        public void GenerateLessons(int amount = 20)
+        public DataGen GenerateLessons(int amount = 20)
         {
             for (int i = 0; i < amount; i++)
             {
                 Lessons.Add(new Lesson(LessonNames[Random.Next(LessonNames.Length)]));
             }
+
+            return this;
         }
         public void GenerateDepartments(int amount = 2)
         {
