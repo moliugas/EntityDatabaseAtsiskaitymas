@@ -9,14 +9,16 @@ namespace EntityDB.Entity
         public Guid Id { get; set; }
         public string Name { get; set; }
 
-        public List<Lesson> Lessons { get; set; } = new List<Lesson>();
+        public List<Lesson> Lessons { get; set; }
 
         [ForeignKey(nameof(Department))]
         public Guid DepartmentId { get; set; }
 
+
         public Student(string name)
         {
             Name = name;
+            Lessons = new List<Lesson>();
         }
 
     }

@@ -10,7 +10,7 @@ namespace EntityDB.Context
         public DbSet<Student> Students { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlServer("Server=MOLL\\SQLEXPRESS;Database=StudentRegistry;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true");
+            options.UseSqlServer("Server=MOLL\\SQLEXPRESS;Database=StudentRegistry;Trusted_Connection=True;TrustServerCertificate=True;");
         }
     }
 }

@@ -62,12 +62,7 @@ namespace EntityDB.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("StudentId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("StudentId");
 
                     b.ToTable("Lesson");
                 });
@@ -92,6 +87,21 @@ namespace EntityDB.Migrations
                     b.ToTable("Student");
                 });
 
+            modelBuilder.Entity("LessonStudent", b =>
+                {
+                    b.Property<Guid>("LessonsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("StudentsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("LessonsId", "StudentsId");
+
+                    b.HasIndex("StudentsId");
+
+                    b.ToTable("LessonStudent");
+                });
+
             modelBuilder.Entity("DepartmentLesson", b =>
                 {
                     b.HasOne("EntityDB.Entity.Department", null)
@@ -107,13 +117,6 @@ namespace EntityDB.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("EntityDB.Entity.Lesson", b =>
-                {
-                    b.HasOne("EntityDB.Entity.Student", null)
-                        .WithMany("Lessons")
-                        .HasForeignKey("StudentId");
-                });
-
             modelBuilder.Entity("EntityDB.Entity.Student", b =>
                 {
                     b.HasOne("EntityDB.Entity.Department", null)
@@ -123,14 +126,24 @@ namespace EntityDB.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("LessonStudent", b =>
+                {
+                    b.HasOne("EntityDB.Entity.Lesson", null)
+                        .WithMany()
+                        .HasForeignKey("LessonsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EntityDB.Entity.Student", null)
+                        .WithMany()
+                        .HasForeignKey("StudentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("EntityDB.Entity.Department", b =>
                 {
                     b.Navigation("Students");
-                });
-
-            modelBuilder.Entity("EntityDB.Entity.Student", b =>
-                {
-                    b.Navigation("Lessons");
                 });
 #pragma warning restore 612, 618
         }
