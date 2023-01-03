@@ -14,12 +14,6 @@ var db = new RegistryContext();
 //db.SaveChanges();
 
 
-//    "Server=localhost;Database=Ef_Core;Trusted_Connection=True;TrustServerCertificate=True"
-
-//Add-Migration InitialCreate
-
-//Update-Database
-
 //        1.Sukurti departamentą ir į jį pridėti studentus, paskaitas(papildomi points jei pridedamos
 //paskaitos jau egzistuojančios duomenų bazėje).
 
@@ -111,12 +105,12 @@ void PrintAllLessonsByDepartmentId(Guid departmentId)
 
 //8. Atvaizduoti visas paskaitas pagal studentą
 
-void PrintAllLessonsByStudentIdAndDepartmentId(Guid studentId, Guid departmentId)
+void PrintAllLessonsByStudentAndDepartmentId(Student student, Guid departmentId)
 {
-    var department = db.Departments.Where(x => x.Id == departmentId).Include(c => c.Lessons).First();
+    var department = db.Departments.Where(x => x.Id == departmentId).Include(c => c.Lessons.Where(l => l.Students.Contains(student))).First();
 
     int num = 0;
-    foreach (var item in department.Lessons.Where(x => x.Students.Contains(studentId)))
+    foreach (var item in department.Lessons)
     {
         Console.WriteLine($"#{++num} {item.Name} {item.Id}");
     }
@@ -126,7 +120,7 @@ void PrintAllLessonsByStudentIdAndDepartmentId(Guid studentId, Guid departmentId
 //db.SaveChanges();
 
 Guid deptId = db.Departments.First().Id;
-Guid studId = db.Students.First().Id;
+Student student = db.Students.First();
 
 //AddStudentsLessonsToDeparment(new List<Student>() { new("Gagis") }, new List<Lesson>() { new("Gagio pamoka") }, deptId);
 
@@ -144,4 +138,4 @@ Guid studId = db.Students.First().Id;
 
 //PrintAllLessonsByDepartmentId(deptId);
 
-PrintAllLessonsByStudentIdAndDepartmentId(studId, deptId);
+PrintAllLessonsByStudentAndDepartmentId(student, deptId);
