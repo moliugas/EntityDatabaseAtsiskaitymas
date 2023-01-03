@@ -116,26 +116,26 @@ void PrintAllLessonsByStudentAndDepartmentId(Student student, Guid departmentId)
     }
 }
 
-//db.UpdateRange(GetMockDepartment());
-//db.SaveChanges();
+db.UpdateRange(GetMockDepartment());
+db.SaveChanges();
 
 Guid deptId = db.Departments.First().Id;
 Student student = db.Students.First();
 
-//AddStudentsLessonsToDeparment(new List<Student>() { new("Gagis") }, new List<Lesson>() { new("Gagio pamoka") }, deptId);
+AddStudentsLessonsToDeparment(new List<Student>() { new("Gagis") }, new List<Lesson>() { new("Gagio pamoka") }, deptId);
 
-//CreateLessonAddToDepartment(deptId);
+CreateLessonAddToDepartment(deptId);
 
-//CreateStudentAddExistingLessonsAddToExistingDepartment(deptId);
+CreateStudentAddExistingLessonsAddToExistingDepartment(deptId);
 
-//Student stud = db.Students.Single(x => x.Name == "Kaka");
+Student stud = db.Students.Single(x => x.Name == "Kaka");
 
-//var dept = GetMockDepartment(true, "Antras");
+var dept = GetMockDepartment(true, "Antras");
 
-//ChangeStudentDepartment(stud, dept);
+ChangeStudentDepartment(stud, dept);
 
-//PrintAllStudentsByDepartmentId(deptId);
+PrintAllStudentsByDepartmentId(deptId);
 
-//PrintAllLessonsByDepartmentId(deptId);
+PrintAllLessonsByDepartmentId(deptId);
 
 PrintAllLessonsByStudentAndDepartmentId(student, deptId);
